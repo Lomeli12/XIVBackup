@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="backup.label.text" xml:space="preserve">
+        <value>Backup your settings and macros to a compressed file.</value>
+    </data>
+    <data name="backup.label.title" xml:space="preserve">
+        <value>Backup</value>
+    </data>
+    <data name="info.label" xml:space="preserve">
+        <value>Backup and restore your hotbars, macros, HUD layout, etc.</value>
+    </data>
+    <data name="backup.button.text" xml:space="preserve">
+        <value>Backup</value>
+    </data>
+    <data name="restore.label.title" xml:space="preserve">
+        <value>Restore</value>
+    </data>
+    <data name="restore.label.text" xml:space="preserve">
+        <value>Restore your backed up settings and macros.</value>
+    </data>
+    <data name="restore.button.text" xml:space="preserve">
+        <value>Restore</value>
+    </data>
+    <data name="close.button.text" xml:space="preserve">
+        <value>Close</value>
+    </data>
+    <data name="xivbackup.title" xml:space="preserve">
+        <value>XIVBackup</value>
+    </data>
+    <data name="filter.fcbz" xml:space="preserve">
+        <value>FFXIV Config Backup (*.fcbz)</value>
+    </data>
+    <data name="filter.all" xml:space="preserve">
+        <value>Any File (*)</value>
+    </data>
+    <data name="backup.exists.warn" xml:space="preserve">
+        <value>{0} already exists. Do you want to replace it?</value>
+    </data>
+    <data name="warning.autodetect" xml:space="preserve">
+        <value>XIVBackup could not auto-detect your game settings folder. The best way to fix this is to place XIVBackup inside your settings folder (where FFXIV.cfg and MACROSYS.dat are located).</value>
+    </data>
+    <data name="warning.autodetect.title" xml:space="preserve">
+        <value>Config Folder Not Found</value>
+    </data>
+</root>
