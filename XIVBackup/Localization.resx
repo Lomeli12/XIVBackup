@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -59,5 +59,29 @@
     </data>
     <data name="warning.autodetect.title" xml:space="preserve">
         <value>Config Folder Not Found</value>
+    </data>
+    <data name="results.backup.success" xml:space="preserve">
+        <value>Backup successful!\n{0}</value>
+    </data>
+    <data name="results.restore.success" xml:space="preserve">
+        <value>Successfully restored backup!\n{0}</value>
+    </data>
+    <data name="results.backup.error.read" xml:space="preserve">
+        <value>Could not read settings at:\n{0}</value>
+    </data>
+    <data name="results.backup.error.write" xml:space="preserve">
+        <value>Could not write backup at:\n{0}</value>
+    </data>
+    <data name="results.restore.error.read" xml:space="preserve">
+        <value>Could not read backup file:\n{0}</value>
+    </data>
+    <data name="results.restore.error.write" xml:space="preserve">
+        <value>Could not restore settings to folder:\n{0}</value>
+    </data>
+    <data name="results.error.default" xml:space="preserve">
+        <value>This error SHOULD be impossible.\nPlease report this issue at:\nhttps://github.com/Lomeli12/XIVBackup/issues\nResults: {0}</value>
+    </data>
+    <data name="results.empty" xml:space="preserve">
+        <value>These results are empty and should never show up.\nIf it does...uh...hi there! o/</value>
     </data>
 </root>

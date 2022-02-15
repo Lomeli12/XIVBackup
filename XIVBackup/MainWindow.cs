@@ -102,7 +102,7 @@ namespace XIVBackup {
                 }
 
                 var backup = new BackupFile();
-                backup.saveBackup(fileName);
+                handleResults(backup.saveBackup(fileName), fileName);
             }
 
             saveBackupDialog.Destroy();
@@ -122,11 +122,30 @@ namespace XIVBackup {
                 var fileName = openBackupDialog.Filename;
                 if (File.Exists(fileName)) {
                     var backup = new BackupFile();
-                    backup.openBackup(fileName);
+                    handleResults(backup.openBackup(fileName), fileName);
                 }
             }
 
             openBackupDialog.Destroy();
+        }
+
+        private void handleResults(BackupResults results, string path) {
+            var message = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, 
+                ButtonsType.Ok, I18n.localize(Localization.results_empty));
+            message.Text = results switch {
+                BackupResults.BACKUP_SUCCESS => I18n.localize(Localization.results_backup_success, path),
+                BackupResults.FAILED_TO_READ_DATA => I18n.localize(Localization.results_backup_error_read,
+                    PlatformUtil.getOSPath()),
+                BackupResults.FAILED_TO_WRITE_BACKUP => I18n.localize(Localization.results_backup_error_write, path),
+                BackupResults.RESTORE_SUCCESS => I18n.localize(Localization.results_restore_success, path),
+                BackupResults.FAILED_TO_READ_BACKUP => I18n.localize(Localization.results_restore_error_read, path),
+                BackupResults.FAILED_TO_RESTORE_BACKUP => I18n.localize(Localization.results_restore_error_write,
+                    PlatformUtil.getOSPath()),
+                _ => I18n.localize(Localization.results_error_default, results)
+            };
+
+            message.Run();
+            message.Destroy();
         }
 
         private void closeBtnEvent(object sender, ButtonReleaseEventArgs args) {
