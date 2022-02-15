@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -52,7 +52,7 @@
         <value>Any File (*)</value>
     </data>
     <data name="backup.exists.warn" xml:space="preserve">
-        <value>{0} already exists. Do you want to replace it?</value>
+        <value>{0} already exists.\nDo you want to replace it?</value>
     </data>
     <data name="warning.autodetect" xml:space="preserve">
         <value>XIVBackup could not auto-detect your game settings folder. The best way to fix this is to place XIVBackup inside your settings folder (where FFXIV.cfg and MACROSYS.dat are located).</value>

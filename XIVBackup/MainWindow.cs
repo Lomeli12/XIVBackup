@@ -54,27 +54,27 @@ namespace XIVBackup {
 
         private void loadLocalization() {
             // General localization
-            Title = Localization.xivbackup_title;
-            infoLabel.Text = Localization.info_label;
-            fcbzFilter.Name = Localization.filter_fcbz;
-            anyFilter.Name = Localization.filter_all;
+            Title = I18n.localize(Localization.xivbackup_title);
+            infoLabel.Text = I18n.localize(Localization.info_label);
+            fcbzFilter.Name = I18n.localize(Localization.filter_fcbz);
+            anyFilter.Name = I18n.localize(Localization.filter_all);
             
             // Backup localization
-            backupTitleLabel.Text = Localization.backup_label_title;
-            backupLabel.Text = Localization.backup_label_text;
-            backupBtn.Label = Localization.backup_button_text;
+            backupTitleLabel.Text = I18n.localize(Localization.backup_label_title);
+            backupLabel.Text = I18n.localize(Localization.backup_label_text);
+            backupBtn.Label = I18n.localize(Localization.backup_button_text);
 
             // Restore localization
-            restoreTitleLabel.Text = Localization.restore_label_title;
-            restoreLabel.Text = Localization.restore_label_text;
-            restoreBtn.Label = Localization.restore_button_text;
+            restoreTitleLabel.Text = I18n.localize(Localization.restore_label_title);
+            restoreLabel.Text = I18n.localize(Localization.restore_label_text);
+            restoreBtn.Label = I18n.localize(Localization.restore_button_text);
 
             // Close Localization
-            closeBtn.Label = Localization.close_button_text;
+            closeBtn.Label = I18n.localize(Localization.close_button_text);
         }
 
         private void backupBtnEvent(object sender, ButtonReleaseEventArgs args) {
-            var saveBackupDialog = new FileChooserDialog(Localization.backup_label_title, this,
+            var saveBackupDialog = new FileChooserDialog(I18n.localize(Localization.backup_label_title), this,
                 FileChooserAction.Save);
             saveBackupDialog.AddFilter(fcbzFilter);
             saveBackupDialog.AddFilter(anyFilter);
@@ -89,7 +89,7 @@ namespace XIVBackup {
                     fileName += BackupFile.FF_EXT;
                 if (File.Exists(fileName)) {
                     var warning = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning,
-                        ButtonsType.YesNo, string.Format(
+                        ButtonsType.YesNo, I18n.localize(
                             Localization.backup_exists_warn, System.IO.Path.GetFileName(fileName))
                     );
 
@@ -109,7 +109,7 @@ namespace XIVBackup {
         }
 
         private void restoreBtnEvent(object sender, ButtonReleaseEventArgs args) {
-            var openBackupDialog = new FileChooserDialog(Localization.backup_label_title, this,
+            var openBackupDialog = new FileChooserDialog(I18n.localize(Localization.backup_label_title), this,
                 FileChooserAction.Open);
             openBackupDialog.AddFilter(fcbzFilter);
             openBackupDialog.AddFilter(anyFilter);
