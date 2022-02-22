@@ -13,7 +13,7 @@ public class BackupFile {
 
     private readonly XIVData sysMacros = new("MACROSYS");
     private readonly List<CharData> characterData = new();
-    private string ffPath = PlatformUtil.getOSPath();
+    private string ffPath = PlatformUtil.getFFConfigPath();
 
     private BackupResults readFiles() {
         characterData.Clear();

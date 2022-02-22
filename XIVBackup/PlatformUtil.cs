@@ -13,7 +13,7 @@ public static class PlatformUtil {
     private const string WINE_USERS = "users";
     private const string WINE_DOCS = "My Documents";
 
-    public static string getOSPath() {
+    public static string getFFConfigPath() {
         if (Directory.GetCurrentDirectory().EndsWith(FF_DIR))
             return Directory.GetCurrentDirectory();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

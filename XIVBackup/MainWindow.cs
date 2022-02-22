@@ -36,7 +36,7 @@ namespace XIVBackup {
             restoreBtn.ButtonReleaseEvent += restoreBtnEvent;
             closeBtn.ButtonReleaseEvent += closeBtnEvent;
 
-            var path = PlatformUtil.getOSPath();
+            var path = PlatformUtil.getFFConfigPath();
             if (path == null || !Directory.Exists(path))
                 displayWarning();
         }
@@ -135,12 +135,12 @@ namespace XIVBackup {
             message.Text = results switch {
                 BackupResults.BACKUP_SUCCESS => I18n.localize(Localization.results_backup_success, path),
                 BackupResults.FAILED_TO_READ_DATA => I18n.localize(Localization.results_backup_error_read,
-                    PlatformUtil.getOSPath()),
+                    PlatformUtil.getFFConfigPath()),
                 BackupResults.FAILED_TO_WRITE_BACKUP => I18n.localize(Localization.results_backup_error_write, path),
                 BackupResults.RESTORE_SUCCESS => I18n.localize(Localization.results_restore_success, path),
                 BackupResults.FAILED_TO_READ_BACKUP => I18n.localize(Localization.results_restore_error_read, path),
                 BackupResults.FAILED_TO_RESTORE_BACKUP => I18n.localize(Localization.results_restore_error_write,
-                    PlatformUtil.getOSPath()),
+                    PlatformUtil.getFFConfigPath()),
                 _ => I18n.localize(Localization.results_error_default, results)
             };
 
