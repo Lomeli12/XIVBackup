@@ -1,9 +1,10 @@
+using System;
 using System.IO;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
 namespace XIVBackup {
-    internal class MainWindow : Window {
+    public class MainWindow : Window {
 #pragma warning disable CS0649
         // Labels
         [UI] private Label infoLabel;
@@ -36,12 +37,13 @@ namespace XIVBackup {
             restoreBtn.ButtonReleaseEvent += restoreBtnEvent;
             closeBtn.ButtonReleaseEvent += closeBtnEvent;
 
-            var path = PlatformUtil.getFFConfigPath();
-            if (path == null || !Directory.Exists(path))
-                displayWarning();
+            PlatformUtil.getFFConfigPath(this);
+            //var path = PlatformUtil.getFFConfigPath();
+            //if (path == null || !Directory.Exists(path))
+            //    displayWarning();
         }
 
-        private void displayWarning() {
+        public void displayWarning() {
             backupBtn.Sensitive = false;
             restoreBtn.Sensitive = false;
 
@@ -58,7 +60,7 @@ namespace XIVBackup {
             infoLabel.Text = I18n.localize(Localization.info_label);
             fcbzFilter.Name = I18n.localize(Localization.filter_fcbz);
             anyFilter.Name = I18n.localize(Localization.filter_all);
-            
+
             // Backup localization
             backupTitleLabel.Text = I18n.localize(Localization.backup_label_title);
             backupLabel.Text = I18n.localize(Localization.backup_label_text);
@@ -73,6 +75,25 @@ namespace XIVBackup {
             closeBtn.Label = I18n.localize(Localization.close_button_text);
         }
 
+        public string selectConfigFolder() {
+            var path = "";
+
+            var pathSelect = new FileChooserDialog(I18n.localize(""), this,
+                FileChooserAction.SelectFolder);
+            pathSelect.AddButton(Stock.Ok, ResponseType.Accept);
+            pathSelect.AddButton(Stock.Cancel, ResponseType.Cancel);
+            pathSelect.DefaultResponse = ResponseType.Accept;
+
+            var response = (ResponseType)pathSelect.Run();
+            if (response == ResponseType.Accept)
+                path = pathSelect.CurrentFolder;
+            
+            Console.WriteLine(path);
+            
+            pathSelect.Destroy();
+            return path;
+        }
+
         private void backupBtnEvent(object sender, ButtonReleaseEventArgs args) {
             var saveBackupDialog = new FileChooserDialog(I18n.localize(Localization.backup_label_title), this,
                 FileChooserAction.Save);
@@ -82,7 +103,7 @@ namespace XIVBackup {
             saveBackupDialog.AddButton(Stock.Cancel, ResponseType.Cancel);
             saveBackupDialog.DefaultResponse = ResponseType.Accept;
 
-            var response = (ResponseType) saveBackupDialog.Run();
+            var response = (ResponseType)saveBackupDialog.Run();
             if (response == ResponseType.Accept) {
                 var fileName = saveBackupDialog.Filename;
                 if (!fileName.EndsWith(BackupFile.FF_EXT))
@@ -93,7 +114,7 @@ namespace XIVBackup {
                             Localization.backup_exists_warn, System.IO.Path.GetFileName(fileName))
                     );
 
-                    var warnResponse = (ResponseType) warning.Run();
+                    var warnResponse = (ResponseType)warning.Run();
                     warning.Destroy();
                     if (warnResponse == ResponseType.No) {
                         saveBackupDialog.Destroy();
@@ -102,7 +123,7 @@ namespace XIVBackup {
                 }
 
                 var backup = new BackupFile();
-                handleResults(backup.saveBackup(fileName), fileName);
+                handleResults(backup.saveBackup(this, fileName), fileName);
             }
 
             saveBackupDialog.Destroy();
@@ -117,12 +138,12 @@ namespace XIVBackup {
             openBackupDialog.AddButton(Stock.Cancel, ResponseType.Cancel);
             openBackupDialog.DefaultResponse = ResponseType.Accept;
 
-            var response = (ResponseType) openBackupDialog.Run();
+            var response = (ResponseType)openBackupDialog.Run();
             if (response == ResponseType.Accept) {
                 var fileName = openBackupDialog.Filename;
                 if (File.Exists(fileName)) {
                     var backup = new BackupFile();
-                    handleResults(backup.openBackup(fileName), fileName);
+                    handleResults(backup.openBackup(this, fileName), fileName);
                 }
             }
 
@@ -130,17 +151,17 @@ namespace XIVBackup {
         }
 
         private void handleResults(BackupResults results, string path) {
-            var message = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, 
+            var message = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info,
                 ButtonsType.Ok, I18n.localize(Localization.results_empty));
             message.Text = results switch {
                 BackupResults.BACKUP_SUCCESS => I18n.localize(Localization.results_backup_success, path),
                 BackupResults.FAILED_TO_READ_DATA => I18n.localize(Localization.results_backup_error_read,
-                    PlatformUtil.getFFConfigPath()),
+                    PlatformUtil.getFFConfigPath(this)),
                 BackupResults.FAILED_TO_WRITE_BACKUP => I18n.localize(Localization.results_backup_error_write, path),
                 BackupResults.RESTORE_SUCCESS => I18n.localize(Localization.results_restore_success, path),
                 BackupResults.FAILED_TO_READ_BACKUP => I18n.localize(Localization.results_restore_error_read, path),
                 BackupResults.FAILED_TO_RESTORE_BACKUP => I18n.localize(Localization.results_restore_error_write,
-                    PlatformUtil.getFFConfigPath()),
+                    PlatformUtil.getFFConfigPath(this)),
                 _ => I18n.localize(Localization.results_error_default, results)
             };
 

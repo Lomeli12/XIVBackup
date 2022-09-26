@@ -13,19 +13,19 @@ public class BackupFile {
 
     private readonly XIVData sysMacros = new("MACROSYS");
     private readonly List<CharData> characterData = new();
-    private string ffPath = PlatformUtil.getFFConfigPath();
 
-    private BackupResults readFiles() {
+    private BackupResults readFiles(MainWindow parent) {
         characterData.Clear();
 
         try {
-            var macrosPath = Path.Combine(ffPath, MACROS_FILE);
+            var macrosPath = Path.Combine(PlatformUtil.getFFConfigPath(parent), MACROS_FILE);
             if (File.Exists(macrosPath))
                 sysMacros.Data = File.ReadAllBytes(macrosPath);
 
-            var dirs = Directory.GetDirectories(ffPath, CHAR_FOLDER + "*");
+            var dirs = Directory.GetDirectories(PlatformUtil.getFFConfigPath(parent), CHAR_FOLDER + "*");
             foreach (var charDir in dirs) {
-                var charData = new CharData(charDir, charDir.Substring(ffPath.Length + CHAR_FOLDER.Length + 1));
+                var charData = new CharData(charDir, charDir.Substring(
+                    PlatformUtil.getFFConfigPath(parent).Length + CHAR_FOLDER.Length + 1));
                 charData.readFiles();
                 characterData.Add(charData);
             }
@@ -36,11 +36,11 @@ public class BackupFile {
         return BackupResults.READ_DATA_SUCCESS;
     }
 
-    private BackupResults writeFiles() {
+    private BackupResults writeFiles(MainWindow parent) {
         try {
-            if (!Directory.Exists(ffPath))
-                Directory.CreateDirectory(ffPath);
-            File.WriteAllBytes(Path.Combine(ffPath, MACROS_FILE), sysMacros.Data);
+            if (!Directory.Exists(PlatformUtil.getFFConfigPath(parent)))
+                Directory.CreateDirectory(PlatformUtil.getFFConfigPath(parent));
+            File.WriteAllBytes(Path.Combine(PlatformUtil.getFFConfigPath(parent), MACROS_FILE), sysMacros.Data);
             if (characterData.Count >= 1) {
                 foreach (var charData in characterData)
                     charData.writeFiles();
@@ -52,8 +52,8 @@ public class BackupFile {
         return BackupResults.RESTORE_SUCCESS;
     }
 
-    public BackupResults saveBackup(string path) {
-        var results = readFiles();
+    public BackupResults saveBackup(MainWindow parent, string path) {
+        var results = readFiles(parent);
         if (results != BackupResults.READ_DATA_SUCCESS)
             return results;
 
@@ -74,7 +74,7 @@ public class BackupFile {
         return BackupResults.BACKUP_SUCCESS;
     }
 
-    public BackupResults openBackup(string path) {
+    public BackupResults openBackup(MainWindow parent, string path) {
         characterData.Clear();
 
         try {
@@ -87,7 +87,7 @@ public class BackupFile {
                 for (var i = 0; i < count; i++) {
                     var charData = new CharData();
                     charData.fromBytes(reader);
-                    charData.CharPath = Path.Combine(ffPath, CHAR_FOLDER + charData.CharacterID);
+                    charData.CharPath = Path.Combine(PlatformUtil.getFFConfigPath(parent), CHAR_FOLDER + charData.CharacterID);
                     characterData.Add(charData);
                 }
             }
@@ -95,6 +95,6 @@ public class BackupFile {
             return BackupResults.FAILED_TO_READ_BACKUP;
         }
 
-        return writeFiles();
+        return writeFiles(parent);
     }
 }
