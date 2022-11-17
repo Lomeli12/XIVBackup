@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using XIVBackup.Util;
 
-namespace XIVBackup;
+namespace XIVBackup.Data;
 
 public class BackupFile {
     public const string FF_EXT = ".fcbz";
@@ -62,7 +63,7 @@ public class BackupFile {
         using var writer = new BinaryWriter(zipStream, Encoding.UTF8, false);
         try {
             sysMacros.toBytes(writer);
-            writer.Write((double) characterData.Count);
+            writer.Write((double)characterData.Count);
             if (characterData.Count > 0) {
                 foreach (var charData in characterData) {
                     charData.toBytes(writer);
@@ -82,7 +83,7 @@ public class BackupFile {
             using var zipStream = new GZipStream(stream, CompressionMode.Decompress, false);
             using var reader = new BinaryReader(zipStream, Encoding.UTF8, false);
             sysMacros.fromBytes(reader);
-            var count = (int) reader.ReadDouble();
+            var count = (int)reader.ReadDouble();
             if (count > 0) {
                 for (var i = 0; i < count; i++) {
                     var charData = new CharData();

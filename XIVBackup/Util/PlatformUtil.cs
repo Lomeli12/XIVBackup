@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace XIVBackup;
+namespace XIVBackup.Util;
 
 public static class PlatformUtil {
     private static string ffPath = "";
@@ -21,6 +21,7 @@ public static class PlatformUtil {
 
     // XIVLauncher flatpak directory names
     private const string XIV_LINUX_CONFIG = ".xlcore";
+    private const string XIV_LAUNCHER_CONFIG = "launcher.ini";
     private const string XIV_GAME_CONFIG = "ffxivConfig";
 
     public static string getFFConfigPath(MainWindow parent) {
@@ -43,9 +44,10 @@ public static class PlatformUtil {
         if (!Directory.Exists(path)) {
             var newPath = path;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                // XIVLauncher flatpak
-                newPath = combineAndVerifyPath(path, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                    XIV_LINUX_CONFIG, XIV_GAME_CONFIG);
+                // XIVLauncher
+                newPath = getXIVLauncherPath(path);
+                //newPath = combineAndVerifyPath(path, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                //    XIV_LINUX_CONFIG, XIV_GAME_CONFIG);
                 if (newPath.Equals(path)) {
                     // Lutris
                     newPath = combineAndVerifyPath(path, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
@@ -83,5 +85,21 @@ public static class PlatformUtil {
         for (var i = 1; i < folders.Length; i++)
             path = Path.Combine(path, folders[i]);
         return path;
+    }
+
+    private static string getXIVLauncherPath(string basePath) {
+        var configPath = combineAndVerifyPath(basePath, 
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), XIV_LINUX_CONFIG);
+        if (configPath.Equals(basePath))
+            return basePath;
+        var iniConfigPath = Path.Combine(configPath, XIV_LAUNCHER_CONFIG);
+        if (File.Exists(iniConfigPath)) {
+            /*var iniParser = new FileIniDataParser();
+            var iniData = iniParser.ReadFile(iniConfigPath);
+            var gameConfigPath = iniData[""]["GameConfigPath"];
+            return !string.IsNullOrWhiteSpace(gameConfigPath) && Directory.Exists(gameConfigPath) ? gameConfigPath : basePath;*/
+        }
+        var gamePath = Path.Combine(configPath, XIV_GAME_CONFIG);
+        return Directory.Exists(gamePath) ? gamePath : basePath;
     }
 }

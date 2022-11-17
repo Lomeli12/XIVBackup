@@ -1,4 +1,4 @@
-﻿namespace XIVBackup;
+﻿namespace XIVBackup.Data;
 
 public enum BackupResults {
     FAILED_TO_READ_DATA,

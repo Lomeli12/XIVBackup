@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace XIVBackup;
+namespace XIVBackup.Data;
 
 public class CharData {
     private readonly XIVData[] characterData = {

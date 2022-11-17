@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using Gtk;
+using XIVBackup.Data;
+using XIVBackup.Util;
 using UI = Gtk.Builder.ObjectAttribute;
 
 namespace XIVBackup {
