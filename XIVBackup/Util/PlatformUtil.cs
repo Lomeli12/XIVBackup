@@ -94,10 +94,9 @@ public static class PlatformUtil {
             return basePath;
         var iniConfigPath = Path.Combine(configPath, XIV_LAUNCHER_CONFIG);
         if (File.Exists(iniConfigPath)) {
-            /*var iniParser = new FileIniDataParser();
-            var iniData = iniParser.ReadFile(iniConfigPath);
-            var gameConfigPath = iniData[""]["GameConfigPath"];
-            return !string.IsNullOrWhiteSpace(gameConfigPath) && Directory.Exists(gameConfigPath) ? gameConfigPath : basePath;*/
+            var iniData = new BasicIniParser(iniConfigPath);
+            var gameConfigPath = iniData.get("GameConfigPath");
+            return !string.IsNullOrWhiteSpace(gameConfigPath) && Directory.Exists(gameConfigPath) ? gameConfigPath : basePath;
         }
         var gamePath = Path.Combine(configPath, XIV_GAME_CONFIG);
         return Directory.Exists(gamePath) ? gamePath : basePath;
