@@ -23,7 +23,7 @@ kotlin {
         else -> throw Error("Unknown host")
     }.binaries.executable {
         if (os.isWindows) {
-            windowsResources("hello.rc")
+            windowsResources("xivbackup.rc")
             linkerOpts("-mwindows")
         }
     }
